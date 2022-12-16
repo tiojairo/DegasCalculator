@@ -30,10 +30,14 @@ int binarySearch(const double array[], float target, int size) {
     while (left <= right) {
         middle = (left + right) / 2;
 
-        if (array[middle] == target || (array[middle] == left && array[middle] == right))
+        double found = array[middle];
+
+        // TODO: Change to difference comparison, for more precision or if requested by Degas.
+        // found - target <= margin
+        if (target == found || left == right)
             return middle;
 
-        if (target > array[middle])
+        if (target > found)
             left = middle + 1;
         else
             right = middle - 1;

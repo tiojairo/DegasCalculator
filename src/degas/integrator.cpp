@@ -2,7 +2,7 @@
 
 #include <iostream>
 #include <iomanip>
-#include <stdio.h>
+#include "stdio.h"
 
 #include "../../include/utils.h"
 
@@ -23,6 +23,9 @@ int readFileCount(const string& path) {
     FILE *file;
     file = fopen(path.c_str(), "r");
 
+    if (!file)
+        return 0;
+
     int count = 0;
     fscanf(file, "%d", &count);
 
@@ -35,10 +38,13 @@ void readFile(const string &path, double *xArray, double *yArray) {
     FILE *file;
     file = fopen(path.c_str(), "r");
 
+    if (!file)
+        return;
+
     int count = 0;
     fscanf(file, "%d", &count);
 
-    cout << "Elementos encontrados: " << endl;
+    print("Elementos encontrados: ");
 
     double localX[count], localY[count];
     for (int i = 0; i < count; i++) {
@@ -63,6 +69,11 @@ void readFile(const string &path, double *xArray, double *yArray) {
 
 void integrate(const string& path) {
     int count = readFileCount(path);
+    if (count == 0) {
+        print("Arquivo nao encontrado.");
+        return;
+    }
+
     double x[count], y[count];
     readFile(path, x, y);
 
@@ -75,6 +86,9 @@ void integrate(const string& path) {
     int size = (int)(sizeof(x) / sizeof(x[0]));
     int aPosition = binarySearch(x, a, size);
     int bPosition = binarySearch(x, b, size);
+
+    cout << "x[" << aPosition << "] = " << x[aPosition] << " y[" << aPosition << "] = " << y[aPosition] << endl;
+    cout << "x[" << bPosition << "] = " << x[bPosition] << " y[" << bPosition << "] = " << y[bPosition] << endl;
 
     cout << endl << "Integral: " << integrateTrapeze(aPosition, bPosition, x, y) << endl;
 }
