@@ -4,16 +4,20 @@
 #include "../include/utils.h"
 #include "../include/generator.h"
 #include "../include/integrator.h"
+#include "../include/derivator.h"
 
 enum state_enum {
     state_default = -1,
     state_exit = 0,
     state_generate = 1,
     state_integrate = 2,
+    state_derivate = 3,
 };
 
+const string FILENAME = "data.txt";
+
 float function(float x) {
-    return tan(x);
+    return pow(x, 2);
 }
 
 int main() {
@@ -24,7 +28,8 @@ int main() {
 
         print("Digite:");
         print("(1) para gerar o arquivo");
-        print("(2) para integrar a partir do arquivo");
+        print("(2) para integrar");
+        print("(3) para derivar");
         print("(0) para sair do programa");
 
         cin >> state;
@@ -36,14 +41,18 @@ int main() {
                 return 0;
             case state_generate:
                 print("");
-                generate("tan.txt", function);
+                generate(FILENAME, function);
                 print("");
                 break;
             case state_integrate:
                 print("");
-                integrate("tan.txt");
+                integrate(FILENAME);
                 print("");
                 break;
+            case state_derivate:
+                print("");
+                derivate(FILENAME);
+                print("");
         }
     }
 }
